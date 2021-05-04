@@ -12,7 +12,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 def handle_client(conn, addr): #individual connection between server and client
-    print("[NEW CONNECTION] {ADDR} CONECTED")
+    print("[NEW CONNECTION] " + ADDR + " CONECTED")
 
     connected = True
     while connected:
@@ -23,19 +23,20 @@ def handle_client(conn, addr): #individual connection between server and client
             connected = False
             
         
-        print(f"[{addr}]{msg}")
-
+        print(addr + msg )
+              
     conn.close()
         
     
 def start(): #handle new collection
     server.listen()
+    print("[LISTENING] Server is listening on " + SERVER)
     while True:
         conn, addr = server.accept() #this line waits for a new connection to a server
         thread = threading.Thread(target=handle_client, args=(conn, addr))
         thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.activeCount() -1}")
+        print(f"[ACTIVE CONNECTIONS] " + (threading.activeCount() -1))
         
-print("Server is starting...")
+print("[STARTING] Server is starting...")
 start()
 
